@@ -1,0 +1,23 @@
+menu:
+    Blog: /
+    About: /about/
+    Archive: /archives/
+    Weibo: http://weibo.com/hantianwei
+    GitHub: https://github.com/hantianwei
+    #Rss: /atom.xml
+
+favicon: /favicon.png
+logo: /logo.jpg
+
+# Comment
+# e.g disqus: seansun
+disqus:
+duoshuo:
+cloudTie:
+
+# Analytics
+# google-analytics:
+#ga: UA-65933410-1
+
+# Copyright Infomation
+startyear: 2015

@@ -1,0 +1,65 @@
+//postType 0-Index 1-Archive 2-Post
+mixin postInfo(item,postType)
+    .post-info
+        img(src=config.url+"/images/date-icon.png" class="date-icon")
+        != full_date(item.date, 'll')
+        if config.author && postType == 2
+            span(class="author info")
+              != config.author
+        if item.categories && postType != 1
+          img(src=config.url+"/images/cate-icon.png" class="category-icon")
+          i.fa.fa-tag
+            - item.categories.each(function(cate) {
+              a.tag(href= config.root + cate.path, title= cate.name)= cate.name + " "
+            - });
+        if item.from && (is_home() || is_post())
+            a.post-from(href= item.from target="_blank" title=item.from) 翻译 · 原文地址
+
+//- Index Page
+mixin posts()
+    ul.home.post-list
+        - page.posts.each(function (item) {
+            li.post-list-item
+                article.post-block
+                    h2.post-title
+                        a.post-title-link(href= url_for(item.path))
+                            != item.title
+                    +postInfo(item,0)
+                    .post-content
+                        != item.excerpt
+                    a.read-more(href= url_for(item.path))!= __('more')
+        - })
+
+//- Archive Page
+mixin postList()
+    .archive
+        - var year = 0;
+        - var change = false;
+        - page.posts.each(function (item) {
+            - var itemYear = date(item.date, 'YYYY') - 0;
+            - change = year !== itemYear;
+            - year = change ? itemYear : year;
+            if change
+                h2.archive-year!= year
+            .post-item
+                +postInfo(item,1)
+                a.post-title-link(href= url_for(item.path))
+                    != item.title
+        - })
+
+//- Post Page
+mixin post(item)
+    .post
+        article.post-block
+            h1.post-title
+                != item.title
+            +postInfo(item,2)
+            .post-content
+                != item.content
+
+            if item.tags
+              span(class="tags") Tags:
+              i.fa.fa-tag
+                - item.tags.each(function(tag) {
+                  a.tag(href= config.root + tag.path, title= tag.name)= tag.name + " "
+                - });
